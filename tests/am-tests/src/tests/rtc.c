@@ -1,7 +1,10 @@
 #include <amtest.h>
+#include <inttypes.h>
+#include <stdint.h>
 
 void rtc_test() {
   AM_TIMER_RTC_T rtc;
+  AM_TIMER_EPOCH_T time_since_epoch;
   int sec = 1;
   while (1) {
     while(io_read(AM_TIMER_UPTIME).us / 1000000 < sec) ;
@@ -13,5 +16,7 @@ void rtc_test() {
       printf("%d seconds).\n", sec);
     }
     sec ++;
+    time_since_epoch = io_read(AM_TIMER_EPOCH);
+    printf("Since epoch: %" PRIu64 " secs and %" PRIu64 " usecs\n", (uint64_t)time_since_epoch.sec, (uint64_t)time_since_epoch.usec);
   }
 }
